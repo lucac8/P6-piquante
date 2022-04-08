@@ -22,9 +22,9 @@ exports.signup = (req, res, next) => {
 
 exports.login = (req, res, next) => {
   const emailCryptoJS = CryptoJS.HmacSHA256(req.body.email, "KT9J3zE9xz38yR3r").toString() //Cryptage de l'adresse mail pour la chercher ds la base de données
-    User.findOne({ email: emailCryptoJS })      //On cherche ds la collection le profil avec le mm email que celui de le requete (renvoie profile)
+    User.findOne({ email: emailCryptoJS })      
       .then(user => { 
-        if (!user) { //Si il n'en trouve pas (pas le bon email)
+        if (!user) { //Pas bon email
           return res.status(401).json({ error: 'Utilisateur non trouvé !' });
         }
         bcrypt.compare(req.body.password, user.password)  //Sinon bcrypt compare le mdp texte avec celui en hash (renvoie true/false)

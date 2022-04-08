@@ -7,7 +7,7 @@ const path = require('path'); //Ce module permet d'utiliser les chemins vers les
 const userRoutes = require('./routes/user');
 const sauceRoutes = require('./routes/sauce');
 
-//Connection a la base de donnée 
+//Connection a la base de données
 mongoose.connect('mongodb+srv://luca_clr:RdY1nRvRph9ChFAd@cluster0.odyk0.mongodb.net/myFirstDatabase?retryWrites=true&w=majority',
   { useNewUrlParser: true,
     useUnifiedTopology: true })
@@ -24,8 +24,7 @@ app.use((req, res, next) => {
 
 app.use(express.json()); //Permet de recuperer le body des requetes
 
-app.use('/images', express.static(path.join(__dirname, 'images'))); //Quand on utilise la route image express va cherche ds le dossier image
-console.log(__dirname)
+app.use('/images', express.static(path.join(__dirname, 'images'))); //Chemin vers images
 
 app.use('/api/auth' , userRoutes)
 app.use('/api/sauces' , sauceRoutes)

@@ -1,5 +1,5 @@
 const express = require('express');
-const router = express.Router(); //Pour creer une route avec middleware , complet
+const router = express.Router(); 
 
 const userCtrl = require('../controllers/CtrlUser');
 const password = require('../middleware/password')

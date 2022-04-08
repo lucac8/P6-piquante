@@ -8,7 +8,6 @@ exports.getAllSauce = (req, res, next) => {
 }
 
 exports.createSauce = (req, res, next) => {
-    console.log(req.body.sauce)
     const sauceObject = JSON.parse(req.body.sauce) //Transforme les info de la requete en obj js
     delete  sauceObject._id;
     const sauce = new Sauce({
@@ -40,7 +39,7 @@ exports.deleteSauce = (req, res, next) => {
           });
         }else{
         const filename = sauce.imageUrl.split('/images/')[1];       //On recupere tout ce qui est apres le /images/
-        fs.unlink(`images/${filename}`, () => {            //Supprime le fichier puis appel une callback 
+        fs.unlink(`images/${filename}`, () => {            //Supprime le fichier 
         Sauce.deleteOne({ _id: req.params.id })
         .then(() => res.status(200).json({ message: 'Objet supprimé !'}))
         });
@@ -65,7 +64,7 @@ exports.likeSauce = (req, res, next) => {
           break;
         
       case 0 : 
-          Sauce.findOne({_id: req.params.id})   //On recupere la sauce 
+          Sauce.findOne({_id: req.params.id})   
           .then(sauce => {
             if(sauce.usersLiked.includes(req.body.userId)) { //Avec la sauce on cherche ds le tab des like si l'user a mit un like 
               Sauce.updateOne({_id: req.params.id} , {$pull : {usersLiked: req.body.userId} , $inc: {likes: -1}})
@@ -82,7 +81,7 @@ exports.likeSauce = (req, res, next) => {
   }   
 }
    
-exports.modifySauce = (req, res, next) => {  //Req = sauce et images : file
+exports.modifySauce = (req, res, next) => {  
   Sauce.findOne({ _id: req.params.id }).then( 
     (sauce) => {
       if (!sauce) {            
@@ -94,9 +93,7 @@ exports.modifySauce = (req, res, next) => {  //Req = sauce et images : file
         res.status(400).json({
           error: new Error('Unauthorized request!')
         });
-      }else{
-        console.log(sauce.imageUrl)
-        console.log(req.body)                                        
+      }else{                                      
         if(req.file) {                                              //Si modification de l'image suppresion de l'ancienne
           const filename = sauce.imageUrl.split('/images/')[1];       
           fs.unlink(`images/${filename}`, () => { console.log('Image supp') }) 

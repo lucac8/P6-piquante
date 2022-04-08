@@ -7,7 +7,7 @@ const MIME_TYPES = {
 };
 
 const storage = multer.diskStorage({          //Config les fichiers entrants
-  destination: (req, file, callback) => {       //Ds dossier images
+  destination: (req, file, callback) => {       //Doit enregister ds dossier images
     callback(null, 'images');
   },
   filename: (req, file, callback) => {      //Renvoie un nom sans espace un nbr de miliseconde et l'extension 
@@ -17,5 +17,5 @@ const storage = multer.diskStorage({          //Config les fichiers entrants
   }
 });
 
-module.exports = multer({storage: storage}).single('image'); //Exporte donc le rangement des images et on ne prend que le telechargement d'une image
+module.exports = multer({storage: storage}).single('image'); //exporte multer config pour les images
 
